@@ -10,7 +10,14 @@ const oauth2Client = new google.auth.OAuth2(
     process.env.REDIRCET_URI,
   );
 
-  const scopes = [Photos.Scopes.READ_ONLY, Photos.Scopes.SHARING];
+const scopes = [Photos.Scopes.READ_ONLY, Photos.Scopes.SHARING];
+
+const url = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: scopes,
+});
+
+console.log(url);
 
 app.get('/',(req,res) => {
     res.send('API is running successfuly!');
