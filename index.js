@@ -17,7 +17,7 @@ const url = oauth2Client.generateAuthUrl({
     scope: scopes,
 });
 
-console.log(url);
+const {tokens} = oauth2Client.getToken(process.env.CODE)
 
 app.get('/',(req,res) => {
     res.send('API is running successfuly!');
