@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const {google} = require('googleapis');
+const { apigateway } = require('googleapis/build/src/apis/apigateway');
 const Photos = require('googlephotos');
 require('dotenv').config();
 
@@ -10,14 +11,7 @@ const oauth2Client = new google.auth.OAuth2(
     process.env.REDIRCET_URI,
   );
 
-const scopes = [Photos.Scopes.READ_ONLY, Photos.Scopes.SHARING];
-
-const url = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: scopes,
-});
-
-const {tokens} = oauth2Client.getToken(process.env.CODE)
+const photos = new Photos(process.env.ACCESS_TOKEN);
 
 app.get('/',(req,res) => {
     res.send('API is running successfuly!');
