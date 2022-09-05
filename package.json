@@ -26,6 +26,8 @@
     "googleapis": "^105.0.0",
     "googleapis-common": "^6.0.1",
     "googlephotos": "^0.3.5",
+    "https": "^1.0.0",
+    "image-downloader": "^4.3.0",
     "nodemon": "^2.0.19",
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0"
