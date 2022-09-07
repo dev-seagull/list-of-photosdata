@@ -14,6 +14,7 @@ const oauth2Client = new google.auth.OAuth2(
     process.env.REDIRCET_URI,
   );
 
+// photoslibrary.readonly
 //const scopes = [Photos.Scopes.READ_ONLY, Photos.Scopes.SHARING];
 
 //const url = oauth2Client.generateAuthUrl({
@@ -33,7 +34,18 @@ const photos = new Photos(process.env.ACCESS_TOKEN);
 
 async function listMediaItems(){
   try{
-    const albumsList = await photos.mediaItems.list()
+    const mediaItemsList = await photos.mediaItems.list()
+    console.log(mediaItemsList)
+  } catch(error){
+    console.log(error.message)
+  }
+} 
+
+listMediaItems();
+
+async function listAlbums(){
+  try{
+    const albumsList = await photos.albums.list()
     console.log(albumsList)
   } catch(error){
     console.log(error.message)
@@ -41,6 +53,8 @@ async function listMediaItems(){
 } 
 
 listMediaItems();
+listAlbums();
+
 
 //function downloadImage(url,filepath){
   //https.get(url, (res) => { 
