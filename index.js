@@ -1,8 +1,14 @@
-const express = require('express');
-const app = express();
-const {google} = require('googleapis');
-const Photos = require('googlephotos');
+//const express = require('express');
+//import express from 'express';
+//const app = express();
+//const {google} = require('googleapis');
+//const Photos = require('googlephotos');
+import Photos from 'googlephotos';
 require('dotenv').config();
+//import env from "dotenv";
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
+import express from 'express'
 
 //const https = require('https');
 //const download = require('image-downloader');
@@ -49,9 +55,9 @@ async function listMediaItems(){
 async function listAlbums(){
   try{
     const albumsList = await photos.albums.list()
-    console.log("This is the list of albums: ")
-    console.log(albumsList)
-    console.log("\n")
+   // console.log("This is the list of albums: ")
+    return albumsList
+   // console.log("\n")
   } catch(error){
     console.log(error.message)
   }
@@ -88,11 +94,11 @@ async function listAlbumContents(){
 }
 
 
-listMediaItems();
+//listMediaItems();
 
 //listAlbums();
 
-listAlbumContents();
+//listAlbumContents();
 
 //function downloadImage(url,filepath){
   //https.get(url, (res) => { 
@@ -112,11 +118,16 @@ listAlbumContents();
 //downloadImage(url,filepath);
 //Downloadd(url,filepath)
 
-app.get('/',(req,res) => {
-    res.send('API is running successfuly!');
-})
+//app.get('/',(req,res) => {
+  //  res.send('API is running successfuly!');
+//})
 
-app.listen(7777, () => console.log('Server is listening to port 7777'));
+//app.listen(7777, () => console.log('Server is listening to port 7777'));
+
+//const albumsList = JSON.stringify(listAlbums());
+//console.log(albumsList);
+
+//document.getElementById("FirstBox").innerHTML = albumsList;
 
 //photos.mediaItems.batchGet
 //enrichment
