@@ -35,26 +35,64 @@ const photos = new Photos(process.env.ACCESS_TOKEN);
 async function listMediaItems(){
   try{
     const mediaItemsList = await photos.mediaItems.list()
+    console.log("This is the list of media items: ")
     console.log(mediaItemsList)
+    console.log("\n")
+    console.log("This is the MediaMetadata of the first mediaitem: ")
+    console.log("\n")
+    console.log(mediaItemsList[ 'mediaItems' ][0].mediaMetadata)
   } catch(error){
     console.log(error.message)
   }
 } 
-
-listMediaItems();
 
 async function listAlbums(){
   try{
     const albumsList = await photos.albums.list()
+    console.log("This is the list of albums: ")
     console.log(albumsList)
+    console.log("\n")
   } catch(error){
     console.log(error.message)
   }
 } 
 
-listMediaItems();
-listAlbums();
+//async function getAlbumIds(){
+  //try{
+    //const albumsList = await photos.albums.list()
+    //const AlbumIds = []
+    //for(let i=0; i< Object.keys(albumsList["albums"]).length ;i++){
+      //AlbumIds[i] = albumsList[ 'albums' ][i]["id"]
+      //console.log(AlbumIds[i])
+    //}
+    //return AlbumIds
+  //}catch(error){
+    //console.log(error.message)
+  //}
+//}
 
+async function listAlbumContents(){
+  try{
+    const albumsList = await photos.albums.list()
+    const albumContent = []
+    for(let i=0; i< Object.keys(albumsList["albums"]).length ;i++){
+      albumContent[i] = await photos.mediaItems.search(albumIdOrFilters= albumsList[ 'albums' ][i].id)
+      albumContent[i] = JSON.stringify(albumContent[i])
+    }
+    console.log("This is the list of contents of second album: ")
+    console.log(albumContent[1])
+    console.log("\n")
+  }catch(error){
+    console.log(error.message)
+  }
+}
+
+
+listMediaItems();
+
+//listAlbums();
+
+listAlbumContents();
 
 //function downloadImage(url,filepath){
   //https.get(url, (res) => { 
@@ -77,4 +115,10 @@ listAlbums();
 app.get('/',(req,res) => {
     res.send('API is running successfuly!');
 })
+
 app.listen(7777, () => console.log('Server is listening to port 7777'));
+
+//photos.mediaItems.batchGet
+//enrichment
+//patch 
+//accessmediaitems
