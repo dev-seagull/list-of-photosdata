@@ -1,7 +1,6 @@
 const express = require('express');
-const app = express();
-const {google} = require('googleapis');
 const Photos = require('googlephotos');
+const fs = require('fs');
 require('dotenv').config();
 
 
@@ -28,26 +27,35 @@ const photos = new Photos(process.env.ACCESS_TOKEN);
 
 async function listMediaItems(){
   try{
-    const mediaItemsList = await photos.mediaItems.list()
-    console.log("This is the list of media items: ")
-    console.log(mediaItemsList)
-    console.log("\n")
-    console.log("This is the MediaMetadata of the mediaitems: ")
-    console.log("\n")
-    for(let i=0; i< Object.keys(mediaItemsList["mediaItems"]).length ;i++){
-      console.log(mediaItemsList["mediaItems"][i]["mediaMetadata"])
-    }
+    let mediaItemsList = await photos.mediaItems.list()
+    mediaItemsList = JSON.stringify(mediaItemsList);
+
+    fs.writeFile("mediaItems.json", mediaItemsList, (err) => {
+      if (err) 
+      console.log("An error occured while writing JSON Object to File.");
+      else {
+      console.log("mediaItems file has been saved.");
+      } 
+    });
+
   } catch(error){
     console.log(error.message)
   }
 } 
 
+
 async function listAlbums(){
   try{
-    const albumsList = await photos.albums.list()
-    console.log("This is the list of albums: ")
-    console.log(albumsList); 
-    console.log("\n")
+    let albumsList = await photos.albums.list()
+    albumsList = JSON.stringify(albumsList);
+    
+    fs.writeFile("albumsList.json", albumsList, (err) => {
+      if (err) 
+      console.log("An error occured while writing JSON Object to File.");
+      else {
+      console.log("albumList file has been saved.");
+      } 
+    });
   } catch(error){
     console.log(error.message)
   }
@@ -56,15 +64,23 @@ async function listAlbums(){
 
 async function listAlbumContents(){
   try{
-    const albumsList = await photos.albums.list()
-    const albumContent = []
+    let albumsList = await photos.albums.list()
+    let albumsContent = []
+
     for(let i=0; i< Object.keys(albumsList["albums"]).length ;i++){
-      albumContent[i] = await photos.mediaItems.search(albumIdOrFilters= albumsList[ 'albums' ][i].id)
-      albumContent[i] = JSON.stringify(albumContent[i])
+      albumsContent[i] = await photos.mediaItems.search(albumIdOrFilters= albumsList[ 'albums' ][i].id)
+      albumsContent[i] = JSON.stringify(albumsContent[i])
     }
-    console.log("This is the list of contents of second album: ")
-    console.log(albumContent[1])
-    console.log("\n")
+
+    albumsContent = JSON.stringify(albumsContent);
+
+    fs.writeFile("albumsContents.json", albumsContent, (err) => {
+      if (err) 
+      console.log("An error occured while writing JSON Object to File.");
+      else {
+      console.log("albumsContents file has been saved.");
+      } 
+    });
   }catch(error){
     console.log(error.message)
   }
@@ -98,6 +114,5 @@ listAlbumContents();
 
 
 //photos.mediaItems.batchGet
-//enrichment
-//patch 
+//enrichment 
 //accessmediaitems
