@@ -1,0 +1,196 @@
+<html>
+    <head> 
+        <title>
+            <title> GOOLGE PHOTOS API </title>
+            <link rel="stylesheet" href="./style.css">
+        </title>
+    </head>
+
+    <body>
+        <h1> GOOGLE PHOTOS API </h1>
+        <div>
+            <p> These are the information that we can get from media items using Google Photos API:</p>
+            <div id="mediaItems"></div>
+            <br> </br>
+
+            <table border=1 id="MediaItemsTable">
+                <caption> <p style="text-align:left;"> Media items table </p> </caption>  
+                <tr> 
+                    <th> </th>
+                    <th id="header0" scope="col"> <p style="text-align:left;"> Description </p> </th>
+                    <th id="header1" scope="col"> <p style="text-align:left;"> Sample </p> </th> 
+                </tr>
+
+                <tr>
+                    <th scope="row"> Id </th>
+                    <td> Identifier for the media item </td>
+                    <td id="mediaItemId"> </td>
+                </tr>
+                <tr>    
+                    <th scope="row"> Description </th>
+                    <td> Description of the media item </td>
+                    <td id="mediaItemDescription"> </td>
+                </tr>
+                <tr>   
+                    <th scope="row"> Product Url </th>
+                    <td> Google Photos URL for the media item. </td>
+                    <td id="mediaItemProductUrl"> </td>
+                </tr> 
+                <tr>    
+                    <th scope="row"> Base Url </th> 
+                    <td> A URL to the media item's bytes </td>
+                    <td id="mediaItemBaseUrl"> </td>
+                </tr>
+                <tr>    
+                    <th scope="row"> Mime Type </th>
+                    <td >  MIME type of the media item </td>
+                    <td id="mimeType"> </td>
+                </tr>
+                <tr>    
+                    <th scope="row"> Meta data </th>
+                    <td> Metadata related to the media item, such as, height, width, or creation time </td>
+                    <td id="mediaMetaData"> </td>
+                </tr> 
+                <tr>    
+                    <th scope="row"> File name </th>
+                    <td> Filename of the media item </td>
+                    <td id="mediaitemFileName"> </td>
+                </tr>
+            </table>
+        </div>        
+
+        <p>
+            The meta data for a photo might include:
+            cameraMake - cameraModel - focalLength - apertureFNumber - isoEquivalent - exposureTime
+
+            <br> </br> 
+
+            The meta data for a video might include: 
+            cameraMake - cameraModel - fps - status
+
+        </p>
+
+        <br> </br> 
+        <br> </br> 
+        <br> </br> 
+        <br> </br> 
+        <br> </br> 
+
+
+        <div>
+            <p> These are the information that we can get from an album using Google Photos API:</p>
+            <div id="albumsList"></div>
+            <br> </br>
+
+            <table border=1 id="AlbumsListTable">
+                <caption> <p style="text-align:left;"> Albums list table </p> </caption>  
+                <tr> 
+                    <th> </th>
+                    <th id="header0" scope="col"> <p style="text-align:left;"> Description </p> </th>
+                    <th id="header1" scope="col"> <p style="text-align:left;"> Sample </p> </th> 
+                </tr>
+
+                <tr>
+                    <th scope="row"> Id </th>
+                    <td> Identifier for the album </td>
+                    <td id="albumId"> </td>
+                </tr>
+                <tr>    
+                    <th scope="row"> Title </th>
+                    <td> Name of the album </td>
+                    <td id="albumTitle"> </td>
+                </tr>
+                <tr>   
+                    <th scope="row"> Product Url </th>
+                    <td> Google Photos URL for the album </td>
+                    <td id="albumProductUrl"> </td>
+                </tr> 
+                <tr>    
+                    <th scope="row"> Media items count </th> 
+                    <td> The number of media items in the album </td>
+                    <td id="mediaItemsCount"> </td>
+                </tr>
+                <tr>    
+                    <th scope="row"> Cover photo BaseUrl </th>
+                    <td > A URL to the cover photo's bytes </td>
+                    <td id="coverPhotoBaseUrl"> </td>
+                </tr>
+                <tr>    
+                    <th scope="row"> Cover photo media item id </th>
+                    <td> Identifier for the media item associated with the cover photo. </td>
+                    <td id="coverPhotoMediaItemId"> </td>
+                </tr> 
+            </table>
+        </div> 
+
+        <br> </br> 
+
+        <div> 
+            <p> Listing album contents: To list all of the media items in an album, add the albumId field to your search request. It returns the list of media items in the particular album. </p>
+        </div>    
+
+        <script type="module"> 
+            fetch('./mediaItems.json')
+                .then(res => res.json())
+                .then(data => {
+                    const dataOfMediaItems = JSON.stringify(Object.keys(data["mediaItems"][0]));
+                    
+                    var mediaItems = document.getElementById('mediaItems');
+                    mediaItems.innerHTML = dataOfMediaItems;
+
+                    var mediaItemId = document.getElementById("mediaItemId");
+                    mediaItemId.innerHTML = JSON.stringify(data["mediaItems"][0].id);
+                    
+                    var mediaItemDescription = document.getElementById('mediaItemDescription');
+                    mediaItemDescription.innerHTML = JSON.stringify(data["mediaItems"][1].description);
+
+                    var mediaItemProductUrl = document.getElementById('mediaItemProductUrl');
+                    mediaItemProductUrl.innerHTML = JSON.stringify(data["mediaItems"][0].productUrl)
+
+                    var mediaItemBaseUrl = document.getElementById('mediaItemBaseUrl');
+                    mediaItemBaseUrl.innerHTML = JSON.stringify(data["mediaItems"][0].baseUrl)
+
+                    var mimeType = document.getElementById('mimeType');
+                    mimeType.innerHTML = JSON.stringify(data["mediaItems"][0].mimeType)
+
+                    var mediaMetaData = document.getElementById('mediaMetaData');
+                    mediaMetaData.innerHTML = JSON.stringify(data["mediaItems"][0].mediaMetadata)
+
+                
+                    var mediaitemFileName = document.getElementById("mediaitemFileName");
+                    mediaitemFileName.innerHTML = JSON.stringify(data["mediaItems"][0].filename)
+
+                });   
+        </script>
+
+
+        <script type="module"> 
+            fetch('./albumsList.json')
+                .then(res => res.json())
+                .then(data => {
+                    const dataOfAlbumsList = JSON.stringify(Object.keys(data["albums"][0]));
+            
+                    var albumsList = document.getElementById('albumsList');
+                    albumsList.innerHTML = dataOfAlbumsList;
+
+                    var albumId = document.getElementById("albumId");
+                    albumId.innerHTML = JSON.stringify(data["albums"][0].id);
+            
+                    var albumTitle = document.getElementById('albumTitle');
+                    albumTitle.innerHTML = JSON.stringify(data["albums"][0].title);
+
+                    var albumProductUrl = document.getElementById('albumProductUrl');
+                    albumProductUrl.innerHTML = JSON.stringify(data["albums"][0].productUrl)
+
+                    var albumMediaItemsCount = document.getElementById('mediaItemsCount');
+                    albumMediaItemsCount.innerHTML = JSON.stringify(data["albums"][0].mediaItemsCount)
+
+                    var albumCoverPhotoBaseUrl = document.getElementById('coverPhotoBaseUrl');
+                    albumCoverPhotoBaseUrl.innerHTML = JSON.stringify(data["albums"][0].coverPhotoBaseUrl)
+
+                    var albumCoverPhotoMediaItemId = document.getElementById('coverPhotoMediaItemId');
+                    albumCoverPhotoMediaItemId.innerHTML = JSON.stringify(data["albums"][0].coverPhotoMediaItemId)
+                });   
+        </script>
+    </body>
+</html>
